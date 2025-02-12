@@ -3,16 +3,23 @@ body {
     text-align: center;
     padding: 50px;
     background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Container Box */
+/* Responsive Container */
 .container {
-    max-width: 400px;
-    margin: auto;
+    max-width: 90%;  /* Changed from fixed 400px to 90% for better scaling */
+    width: 400px;
     background: white;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Heading */
@@ -20,15 +27,22 @@ h2 {
     color: #333;
 }
 
+/* Input & Button Container */
+.input-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
 /* Input Box */
 input {
-    width: 80%;
+    flex: 1;  /* Adjusts dynamically */
     padding: 10px;
-    margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
 }
+
 /* Search Button */
 button {
     background-color: #007BFF;
@@ -37,7 +51,6 @@ button {
     padding: 10px 15px;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 10px;
     border-radius: 5px;
 }
 
@@ -54,6 +67,7 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 /* Meaning, Synonyms, Example Styling */
@@ -64,6 +78,32 @@ button:hover {
 #result p {
     margin: 5px 0;
 }
+
 #result strong {
     color: #333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 500px) {
+    body {
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%; /* Full width on smaller screens */
+        padding: 15px;
+    }
+
+    .input-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
 }
