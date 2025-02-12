@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Select elements
     const searchBtn = document.getElementById("search-btn");
     const wordInput = document.getElementById("word-input");
     const resultDiv = document.getElementById("result");
 
-    let debounceTimer; // Timer for debouncing
+    let debounceTimer; 
 
-    // Function to fetch dictionary data
     async function fetchWordMeaning(word) {
         if (!word) {
             displayError("Please enter a word.");
             return;
         }
+
+        resultDiv.innerHTML = "<p>Loading...</p>";  // Show loading message
 
         const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
 
@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Function to update the UI
     function updateUI(word, meaning, example, synonyms) {
         resultDiv.innerHTML = `
             <h3>${word}</h3>
@@ -42,24 +41,30 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 
-    // Function to display errors
     function displayError(message) {
-        resultDiv.innerHTML = `<p style="color:red;">Error: ${message}</p>`;
+        if (message.includes("Failed to fetch")) {
+            resultDiv.innerHTML = "<p style='color:red;'>Network error. Please try again later.</p>";
+        } else {
+            resultDiv.innerHTML = `<p style="color:red;">Error: ${message}</p>`;
+        }
     }
 
-    // Debounce function to reduce API calls
     function debounce(func, delay) {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(func, delay);
     }
 
-    // Event listener for input field (debounced API calls)
+    wordInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            fetchWordMeaning(wordInput.value.trim());
+        }
+    });
+
     wordInput.addEventListener("input", function () {
         const word = this.value.trim();
         debounce(() => fetchWordMeaning(word), 500);
     });
 
-    // Event listener for search button (instant API call)
     searchBtn.addEventListener("click", function () {
         fetchWordMeaning(wordInput.value.trim());
     });
